@@ -5,11 +5,12 @@ CREATE TABLE person
   gender ENUM('M','F'),
   birth_date DATE,
   street VARCHAR(30),
+  city VARCHAR(20),
   state VARCHAR(20),
+  country VARCHAR(20),
   postal_code VARCHAR(20),
   CONSTRAINT pk_person PRIMARY KEY (person_id)
  );
- 
  
  
 CREATE TABLE favorite_food
