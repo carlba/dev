@@ -6,6 +6,7 @@ import hashlib
 from jsonlib import MyJson
 from getpass import getpass
 
+
 from collections import OrderedDict as odict
 
 url = "https://khan.d.birdstep.internal"
@@ -16,7 +17,8 @@ prefix = "/?"
 def main():    
     
     worksheet = init_worksheet("carl.backstrom@birdstep.com")
-    sheetdict = convert_sheet_to_json(worksheet)
+    sheetdict = convert_sheet_to_json(worksheet)    
+    
     dump_to_pretty_json_file(sheetdict, "testcases.json")
 
 def init_worksheet(username,password=None):
@@ -42,9 +44,8 @@ def convert_sheet_to_json(worksheet):
     all_rows = worksheet.get_all_values()    
     headers = all_rows[0]
     data = all_rows[1:]
-    tcdict = odict()
+    tcdict = odict()    
     
-    print data;
     
     for row in data:
         if row[0] == "":
@@ -56,6 +57,8 @@ def convert_sheet_to_json(worksheet):
             continue
         if "xpi" in row[0]:
             continue
+        if "end" in row[0]:
+            break
         tcdict[currentdict].append(odict(itertools.izip(headers, row)))        
     return tcdict
     #url = url + prefix + urllib.urlencode(urldict)
