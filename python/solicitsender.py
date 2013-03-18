@@ -106,6 +106,7 @@ class SolicitSender():
                 result["data"][tc] = {}                
                 result["data"][tc]["xml"] = (xmldata)
                 result["data"][tc]["dict"] = (etree_to_dict(xmldata))
+                result["data"][tc]["url"] = url
                 
                 #xmldata = retrive_xpath_text(xmldata)
                 #self.htmldoc.write(escape(xmldata))
@@ -149,11 +150,11 @@ class SolicitComparer():
             
         #print rellist
         
-    def print_host_result(self,data,hostname,id):        
+    def print_host_result(self,data,hostname,url,id):        
         parent = self.findparent(data,"ReleaseId", id)
         self.write_output("===================================================")
         self.write_output(hostname)
-        self.write_output("===================================================")
+        self.write_output(url)
         if parent:                            
             self.write_output(etree.tostring(parent))
         else:
@@ -167,25 +168,24 @@ class SolicitComparer():
                 rellist1 = self.nodetoset(self.solicit_result1["data"][tc]["xml"])
                 rellist2 = self.nodetoset(self.solicit_result2["data"][tc]["xml"])                
                 
-                difference = set(rellist1) - set(rellist2)
+                #print rellist1
+                #print rellist2
+                
+                #difference = set(rellist1) - set(rellist2)
+                
+                difference = set(rellist1) ^ set(rellist2)
+                
+                print difference
                 if difference:
                     print difference
                     for id in difference:                      
                         parent = self.findparent(self.solicit_result1["data"][tc]["xml"],"ReleaseId", id)
                         
-                        
+                        self.write_output("===================================================")
                         self.write_output(tc)
-                        self.write_output("===================================================")
-                        parent = self.findparent(self.solicit_result1["data"][tc]["xml"],"ReleaseId", id)
-                        self.write_output(self.solicit_result1["hostname"])
-                        self.write_output("===================================================")
-                        if parent:                            
-                            self.write_output(etree.tostring(parent))
-                        else:
-                            self.write_output("No matches")
                             
-                            
-                        self.print_host_result(self.solicit_result2["data"][tc]["xml"],self.solicit_result2["hostname"],id)
+                        self.print_host_result(self.solicit_result1["data"][tc]["xml"],self.solicit_result1["hostname"], self.solicit_result1["data"][tc]["url"],id)
+                        self.print_host_result(self.solicit_result2["data"][tc]["xml"],self.solicit_result2["hostname"],self.solicit_result1["data"][tc]["url"],id)
                         
 
         else:       
