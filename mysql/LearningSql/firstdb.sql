@@ -52,3 +52,5 @@ SELECT d.name, count(e.emp_id) num_employees FROM department d INNER JOIN employ
 SELECT DISTINCT open_emp_id FROM account;
 --- Show all employes that has openend an account with name instead of id.
 SELECT DISTINCT e.fname, e.lname, a.cust_id FROM account a INNER JOIN employee e on a.open_emp_id = e.emp_id;
+--- Show rows with column matching value and date column with year function matching value.
+SELECT * FROM account WHERE STATUS ="ACTIVE" AND YEAR(open_date) = 2000;
