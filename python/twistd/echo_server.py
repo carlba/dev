@@ -1,6 +1,14 @@
 from twisted.internet import protocol, reactor
 
-class Echo(protocol.Protocol):   
+class Echo(protocol.Protocol):
+    
+    #protocol.Protocol.
+    def connectionMade(self):
+        print "Client connected"
+    
+    def connectionLost(self, data):
+        print "Connection was lost"
+    
     def dataReceived(self,data):
         self.transport.write(data)
         
