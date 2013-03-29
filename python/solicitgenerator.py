@@ -58,7 +58,6 @@ def convert_sheet_to_json(worksheet):
             currentdict = tcname
             continue
         if row[0][0:4] == "http":
-            print row
             tcdict[currentdict].append(HTTPGetToObj(row[0]))
             continue
         
