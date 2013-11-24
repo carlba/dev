@@ -1,5 +1,8 @@
 #!/bin/bash
 
+
+includes=("dox*")
+
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
 
@@ -11,7 +14,7 @@ walker ()
         filename=$(basename "${file}")
         echo "$file"
         if [ -f "$file" ]; then
-            [ ! -L "$2""$filename" ] && ln -s "$file" "$2""$filename"
+            [ ! -L "$2""$filename" ] && [[ "$filename" == *.py ]] && ln -s "$file" "$2""$filename" && echo Symlink "$filename"
         fi
         if [ -d "$file" ] ; then
             echo "isdir"
@@ -22,6 +25,7 @@ walker ()
 }
 
 
-walker "/home/cada/Desktop/*" "/home/cada/bajstemp/"
+
+walker "/home/cada/Desktop/*" "/home/cada/bajstemp/" ""
 
 IFS=$SAVEIFS
